@@ -520,8 +520,25 @@ a.city-item.current{color:var(--red);cursor:default}
 .lead-submit:hover{background:var(--red-d)}
 .lead-submit:disabled{background:#9CA3AF;cursor:wait}
 .lead-note{color:var(--gray);font-size:.72rem;margin-top:10px}
+
+/* COUPON POPUP */
+.cp-overlay{position:fixed;inset:0;background:rgba(13,15,26,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:99999}
+.cp-overlay.open{display:flex}
+.cp-box{background:#fff;border-radius:18px;max-width:380px;width:100%;padding:26px 22px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative}
+.cp-box h3{font-family:'Rajdhani',sans-serif;font-size:1.5rem;margin:0 0 4px}
+.cp-box p{font-size:.92rem;color:#4B5563;margin:0 0 14px}
+.cp-code{border:2px dashed var(--red);border-radius:12px;padding:14px 10px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.9rem;letter-spacing:.12em;color:var(--red);background:#FFF5F5;user-select:all}
+.cp-actions{display:flex;gap:10px;margin-top:16px}
+.cp-actions button{flex:1;border-radius:10px;padding:11px;font-weight:700;font-family:'Rajdhani',sans-serif;font-size:1rem;cursor:pointer}
+.cp-copy{background:var(--red);color:#fff;border:0}
+.cp-close{background:#fff;color:#111;border:1px solid #D1D5DB}
+.cp-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:1px solid #D1D5DB;background:#fff;color:#111;font-size:1rem;cursor:pointer;line-height:1}
+.cp-x:hover{background:var(--red);border-color:var(--red);color:#fff}
+.cp-actions button:hover{opacity:.9}
+.lt-btn{margin-top:14px;background:var(--red);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;cursor:pointer}
+.cp-note{font-size:.78rem!important;color:#6B7280!important;margin:12px 0 0!important}
 .lead-status{margin-top:10px;font-size:.88rem;font-weight:600}
-.lead-status.err{color:var(--green)}
+.lead-status.err{color:var(--red-d)}
 .lead-thanks{text-align:center;padding:26px 8px}
 .lead-thanks .lt-ic{font-size:2.4rem}
 .lead-thanks h3{font-size:1.4rem;margin:8px 0 6px}
@@ -3704,9 +3721,9 @@ a.city-item.current{color:var(--red);cursor:default}
 <section class="enquiry-section" id="enquiry" aria-labelledby="enquiryHeading">
   <div class="enquiry-inner">
     <div class="lead-card" id="leadCard">
-      <p class="section-pill">📞 Interested in a car?</p>
-      <h2 id="enquiryHeading">Get a call back from a Bhopal dealer</h2>
-      <p class="lead-sub">Share your details and a dealer will contact you about the car you like.</p>
+      <p class="section-pill">🎟️ Free discount coupon</p>
+      <h2 id="enquiryHeading">Submit the form, get a coupon for your second hand car</h2>
+      <p class="lead-sub">Fill in your details and you will instantly get a coupon code. Use it to get a discount on a second hand car from our Bhopal dealers. A dealer will also call you about the car you like.</p>
       <form id="leadForm" novalidate onsubmit="return submitLead(event)" method="post" name="Customer-Data">
         <div class="lead-fields">
           <div class="lf"><label for="leadName">Full name</label>
@@ -3721,8 +3738,8 @@ a.city-item.current{color:var(--red);cursor:default}
             <small class="lf-err" id="err-city"></small></div>
         </div>
         <div class="lead-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-        <button type="submit" class="lead-submit" id="leadSubmit">Request a Call Back</button>
-        <p class="lead-note">By submitting, you agree to be contacted by MotorDivan and its partner dealers about your enquiry.</p>
+        <button type="submit" class="lead-submit" id="leadSubmit">Get My Coupon Code</button>
+        <p class="lead-note">Your coupon code appears right after you submit. By submitting, you agree to be contacted by MotorDivan and its partner dealers about your enquiry.</p>
         <p class="lead-status" id="leadStatus" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -3786,6 +3803,20 @@ a.city-item.current{color:var(--red);cursor:default}
   <p>MotorDivan is a listing aggregator. All vehicles are owned and sold by independent third-party dealers. MotorDivan facilitates the connection and is not a party to the sale.</p>
   <p style="margin-top:10px;">© 2026 MotorDivan. All rights reserved.</p>
 </footer>
+
+<div class="cp-overlay" id="cpOverlay" role="dialog" aria-modal="true" aria-labelledby="cpTitle">
+  <div class="cp-box">
+    <button type="button" class="cp-x" id="cpX" aria-label="Close coupon">✕</button>
+    <h3 id="cpTitle">🎉 Your discount coupon</h3>
+    <p id="cpMsg">Use this code to get a discount on your second hand car.</p>
+    <div class="cp-code" id="cpCode">------</div>
+    <div class="cp-actions">
+      <button type="button" class="cp-copy" id="cpCopy">Copy code</button>
+      <button type="button" class="cp-close" id="cpClose">Close</button>
+    </div>
+    <p class="cp-note">Please save or screenshot this code. Show it to the dealer when you buy.</p>
+  </div>
+</div>
 
 <script>
 const CITIES = [
@@ -4360,7 +4391,7 @@ function restoreState() {
    Paste the URL that should receive the enquiries (Formspree, Google Apps Script, your own API …).
    The form sends JSON: { name, phone, city, page, filters, submittedAt }
    ════════════════════════════════════════════════════════════════ */
-const LEAD_ENDPOINT = '';
+const LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzrmtJmS16_llyqsXp_Gi9aOkTOgWyVzSsEhd8kkPUKSzvvyioEqeDzz9X5t9l1AU_W/exec';
 
 function setErr(field, msg) {
   $('err-' + field).textContent = msg || '';
@@ -4380,6 +4411,48 @@ function validateLead(name, phone, city) {
   if (city.length < 2) e.city = 'Please enter your city';
   return e;
 }
+function makeCoupon() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';           // no look-alike characters
+  const r = new Uint32Array(4); crypto.getRandomValues(r);
+  let c = 'MOTOR-'; for (let i = 0; i < 4; i++) c += chars[r[i] % chars.length];
+  return c;                                                    // e.g. MOTOR-K7P2
+}
+let cpLastFocus = null;
+function showCoupon(code, repeat) {
+  $('cpCode').textContent = code;
+  $('cpMsg').textContent = repeat ? 'Here is your coupon again. Use it to get a discount on your second hand car.' : 'Use this code to get a discount on your second hand car.';
+  $('cpCopy').textContent = 'Copy code';
+  cpLastFocus = document.activeElement;
+  $('cpOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  $('cpCopy').focus();
+}
+function hideCoupon() {
+  $('cpOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  if (cpLastFocus && cpLastFocus.focus) cpLastFocus.focus();
+}
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  return new Promise((resolve, reject) => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    let ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta); ok ? resolve() : reject();
+  });
+}
+$('cpClose').addEventListener('click', hideCoupon);
+$('cpX').addEventListener('click', hideCoupon);
+$('cpOverlay').addEventListener('click', e => { if (e.target === $('cpOverlay')) hideCoupon(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('cpOverlay').classList.contains('open')) hideCoupon(); });
+$('cpCopy').addEventListener('click', () => {
+  const btn = $('cpCopy');
+  copyText($('cpCode').textContent.trim()).then(
+    () => { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy code'; }, 2000); },
+    () => { const r = document.createRange(); r.selectNodeContents($('cpCode')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected - press Copy'; }
+  );
+});
 async function submitLead(ev) {
   ev.preventDefault();
   const f = ev.target, status = $('leadStatus'), btn = $('leadSubmit');
@@ -4392,15 +4465,18 @@ async function submitLead(ev) {
   if (!LEAD_ENDPOINT) { status.textContent = 'thank you ! our team will get to you.'; status.className = 'lead-status err'; console.warn('Set LEAD_ENDPOINT in the page script to receive enquiries.'); return false; }
   btn.disabled = true; btn.textContent = 'Sending…';
   try {
-    const res = await fetch(LEAD_ENDPOINT, {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ name, phone: '+91' + phone, city, page: location.href, filters: serF(applied), submittedAt: new Date().toISOString() })
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    $('leadCard').innerHTML = '<div class="lead-thanks" role="status"><div class="lt-ic">✅</div><h3>Thank you, ' + esc(name.split(' ')[0]) + '!</h3><p>We have received your details. A dealer will call you on +91 ' + esc(phone) + ' shortly.</p></div>';
+    const code = makeCoupon();
+    const body = new URLSearchParams();
+    body.append('name', name); body.append('phone', phone); body.append('city', city);
+    body.append('coupon code', code);                       // must match the sheet column name exactly
+    body.append('page', location.href); body.append('submittedAt', new Date().toISOString());
+    await fetch(LEAD_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body });   // throws only on network failure
+    $('leadCard').innerHTML = '<div class="lead-thanks" role="status"><div class="lt-ic">✅</div><h3>Thank you, ' + esc(name.split(' ')[0]) + '!</h3><p>We have received your details. A dealer will call you on +91 ' + esc(phone) + ' shortly.<br>Your coupon: <strong>' + esc(code) + '</strong></p><button type="button" class="lt-btn" id="ltCoupon">View my coupon</button></div>';
+    $('ltCoupon').addEventListener('click', () => showCoupon(code, true));
+    showCoupon(code, false);
   } catch (err) {
     status.textContent = 'Sorry, we could not send your details. Please check your connection and try again.'; status.className = 'lead-status err';
-    btn.disabled = false; btn.textContent = 'Request a Call Back';
+    btn.disabled = false; btn.textContent = 'Get My Coupon Code';
   }
   return false;
 }
@@ -4432,19 +4508,10 @@ window.addEventListener('pageshow', e => { if (e.persisted) { renderFilters(); u
 
 
 
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzrmtJmS16_llyqsXp_Gi9aOkTOgWyVzSsEhd8kkPUKSzvvyioEqeDzz9X5t9l1AU_W/exec'
-            const form = document.forms['Customer-Data']
-          
-            form.addEventListener('submit', e => {
-              e.preventDefault()
-              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                // .then(response => alert("Thanks for Contacting us..! We Will Contact You Soon..."))
-                // .catch(error => console.error('Error!', error.message))
-            })
-         
-
 
 </script>
+
+
 
 </body>
 </html>
