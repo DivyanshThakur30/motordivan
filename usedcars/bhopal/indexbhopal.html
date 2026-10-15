@@ -506,6 +506,10 @@ a.city-item.current{color:var(--red);cursor:default}
 .lead-card{background:var(--white);border:1px solid var(--gray-l);border-radius:var(--radius);padding:26px;box-shadow:0 8px 30px rgba(13,15,26,.06)}
 .lead-card h2{font-size:clamp(1.35rem,3vw,1.8rem);margin:4px 0 6px}
 .lead-sub{color:var(--gray);font-size:.9rem;margin-bottom:18px}
+.lead-perks{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:10px}
+.lead-perks li{display:flex;gap:12px;align-items:flex-start;background:#FFF5F5;border:1px solid #F8D4D7;border-left:4px solid var(--red);border-radius:10px;padding:11px 14px;font-size:.88rem;color:#374151}
+.lead-perks .lp-ic{font-size:1.3rem;line-height:1.2}
+.lead-perks strong{color:var(--dark)}
 .lead-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:14px}
 .lf label{display:block;font-size:.78rem;font-weight:700;margin-bottom:5px}
 .lf input{width:100%;border:1.5px solid var(--gray-l);border-radius:10px;padding:12px 14px;font-size:.92rem;font-family:inherit;background:var(--chalk);transition:var(--trans)}
@@ -536,6 +540,28 @@ a.city-item.current{color:var(--red);cursor:default}
 .cp-x:hover{background:var(--red);border-color:var(--red);color:#fff}
 .cp-actions button:hover{opacity:.9}
 .lt-btn{margin-top:14px;background:var(--red);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;cursor:pointer}
+/* FLOATING COUPON WIDGET */
+.fw{position:fixed;right:16px;bottom:16px;z-index:1900;font-family:inherit}
+.fw-fab{width:58px;height:58px;border-radius:50%;border:0;background:var(--red);color:#fff;font-size:1.65rem;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(230,57,70,.5);display:flex;align-items:center;justify-content:center;position:relative;transition:transform .2s,background .2s}
+.fw-fab:hover{background:var(--red-d);transform:scale(1.07)}
+.fw-fab:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.fw-fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--red);animation:fwPulse 2.2s ease-out infinite;pointer-events:none}
+.fw.open .fw-fab::after{display:none}
+@keyframes fwPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.55);opacity:0}}
+@media (prefers-reduced-motion:reduce){.fw-fab::after{animation:none;display:none}}
+.fw-panel{position:absolute;right:0;bottom:70px;width:min(330px,calc(100vw - 32px));max-height:calc(100dvh - 110px);overflow-y:auto;background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(13,15,26,.35);border:1px solid var(--gray-l);padding:18px 16px 16px;display:none}
+.fw.open .fw-panel{display:block}
+.fw-x{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:1px solid #D1D5DB;background:#fff;color:#111;font-size:.9rem;cursor:pointer;line-height:1}
+.fw-x:hover{background:var(--red);border-color:var(--red);color:#fff}
+.fw-panel h3{font-family:'Rajdhani',sans-serif;font-size:1.3rem;margin:0 28px 8px 0;line-height:1.15}
+.fw-info{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:7px;font-size:.8rem;color:#374151}
+.fw-info li{display:flex;gap:8px;align-items:flex-start;background:#FFF5F5;border-left:3px solid var(--red);border-radius:8px;padding:8px 10px}
+.fw-info strong{color:var(--dark)}
+.fw-submit{width:100%;background:var(--red);color:#fff;border:0;border-radius:10px;padding:12px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;cursor:pointer}
+.fw-submit:hover{background:var(--red-d)}
+.fw-submit:disabled{background:#9CA3AF;cursor:wait}
+.fw-small{font-size:.68rem;color:var(--gray);margin:8px 0 0}
+@media (max-width:600px){.fw{right:12px;bottom:12px}.fw-fab{width:54px;height:54px}.fw-panel{bottom:64px}}
 .cp-note{font-size:.78rem!important;color:#6B7280!important;margin:12px 0 0!important}
 .lead-status{margin-top:10px;font-size:.88rem;font-weight:600}
 .lead-status.err{color:var(--red-d)}
@@ -3724,6 +3750,10 @@ a.city-item.current{color:var(--red);cursor:default}
       <p class="section-pill">🎟️ Free discount coupon</p>
       <h2 id="enquiryHeading">Submit the form, get a coupon for your second hand car</h2>
       <p class="lead-sub">Fill in your details and you will instantly get a coupon code. Use it to get a discount on a second hand car from our Bhopal dealers. A dealer will also call you about the car you like.</p>
+      <ul class="lead-perks" aria-label="What you get">
+        <li><span class="lp-ic" aria-hidden="true">🎁</span><span><strong>MotorDivan Premium Welcome Kit</strong> when you buy a car through MotorDivan.</span></li>
+        <li><span class="lp-ic" aria-hidden="true">🏷️</span><span><strong>Extra discount</strong> when you show the coupon code you get after submitting this form to the car dealer at the time of buying the car.</span></li>
+      </ul>
       <form id="leadForm" novalidate onsubmit="return submitLead(event)" method="post" name="Customer-Data">
         <div class="lead-fields">
           <div class="lf"><label for="leadName">Full name</label>
@@ -3814,8 +3844,24 @@ a.city-item.current{color:var(--red);cursor:default}
       <button type="button" class="cp-copy" id="cpCopy">Copy code</button>
       <button type="button" class="cp-close" id="cpClose">Close</button>
     </div>
-    <p class="cp-note">Please save or screenshot this code. Show it to the dealer when you buy.</p>
+    <p class="cp-note">Show this code to the car dealer at the time of buying the car to get your discount. Buy a car through MotorDivan and you also get a MotorDivan Premium Welcome Kit. Please save or screenshot this code.</p>
   </div>
+</div>
+
+<div class="fw" id="fw">
+  <div class="fw-panel" id="fwPanel" role="dialog" aria-labelledby="fwTitle" hidden>
+    <button type="button" class="fw-x" id="fwX" aria-label="Close coupon box">✕</button>
+    <div id="fwBody">
+      <h3 id="fwTitle">🎟️ Get your discount coupon</h3>
+      <ul class="fw-info">
+        <li><span aria-hidden="true">🎁</span><span><strong>MotorDivan Premium Welcome Kit</strong> when you buy a car through MotorDivan.</span></li>
+        <li><span aria-hidden="true">🏷️</span><span><strong>Extra discount</strong> when you show the coupon code to the car dealer at the time of buying the car.</span></li>
+      </ul>
+      <button type="button" class="fw-submit" id="fwGo">Get Coupon Code</button>
+      <p class="fw-small">Takes you to the form on this page. Fill it in to get your coupon code.</p>
+    </div>
+  </div>
+  <button type="button" class="fw-fab" id="fwFab" aria-label="Get your discount coupon" aria-expanded="false" aria-controls="fwPanel" title="Get your discount coupon">🎁</button>
 </div>
 
 <script>
@@ -4417,10 +4463,11 @@ function makeCoupon() {
   let c = 'MOTOR-'; for (let i = 0; i < 4; i++) c += chars[r[i] % chars.length];
   return c;                                                    // e.g. MOTOR-K7P2
 }
-let cpLastFocus = null;
+let cpLastFocus = null, lastCouponCode = null;
 function showCoupon(code, repeat) {
+  lastCouponCode = code;
   $('cpCode').textContent = code;
-  $('cpMsg').textContent = repeat ? 'Here is your coupon again. Use it to get a discount on your second hand car.' : 'Use this code to get a discount on your second hand car.';
+  $('cpMsg').textContent = repeat ? 'Here is your coupon again. Show it to the car dealer when buying to get a discount on your second hand car.' : 'Show this code to the car dealer when buying to get a discount on your second hand car.';
   $('cpCopy').textContent = 'Copy code';
   cpLastFocus = document.activeElement;
   $('cpOverlay').classList.add('open');
@@ -4471,7 +4518,7 @@ async function submitLead(ev) {
     body.append('coupon code', code);                       // must match the sheet column name exactly
     body.append('page', location.href); body.append('submittedAt', new Date().toISOString());
     await fetch(LEAD_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body });   // throws only on network failure
-    $('leadCard').innerHTML = '<div class="lead-thanks" role="status"><div class="lt-ic">✅</div><h3>Thank you, ' + esc(name.split(' ')[0]) + '!</h3><p>We have received your details. A dealer will call you on +91 ' + esc(phone) + ' shortly.<br>Your coupon: <strong>' + esc(code) + '</strong></p><button type="button" class="lt-btn" id="ltCoupon">View my coupon</button></div>';
+    $('leadCard').innerHTML = '<div class="lead-thanks" role="status"><div class="lt-ic">✅</div><h3>Thank you, ' + esc(name.split(' ')[0]) + '!</h3><p>We have received your details. A dealer will call you on +91 ' + esc(phone) + ' shortly.<br>Show your coupon to the car dealer at the time of buying the car for a discount, and get a MotorDivan Premium Welcome Kit when you buy a car through MotorDivan.<br>Your coupon: <strong>' + esc(code) + '</strong></p><button type="button" class="lt-btn" id="ltCoupon">View my coupon</button></div>';
     $('ltCoupon').addEventListener('click', () => showCoupon(code, true));
     showCoupon(code, false);
   } catch (err) {
@@ -4480,6 +4527,24 @@ async function submitLead(ev) {
   }
   return false;
 }
+
+/* ── Floating coupon widget ── */
+function fwOpen(open) {
+  $('fw').classList.toggle('open', open); $('fwPanel').hidden = !open;
+  $('fwFab').setAttribute('aria-expanded', open ? 'true' : 'false');
+  $('fwFab').textContent = open ? '✕' : '🎁';
+}
+$('fwFab').addEventListener('click', () => fwOpen(!$('fw').classList.contains('open')));
+$('fwX').addEventListener('click', () => { fwOpen(false); $('fwFab').focus(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('fw').classList.contains('open')) { fwOpen(false); $('fwFab').focus(); } });
+document.addEventListener('click', e => { if ($('fw').classList.contains('open') && !e.target.closest('#fw')) fwOpen(false); });
+$('fwGo').addEventListener('click', () => {
+  fwOpen(false);
+  if (lastCouponCode) { showCoupon(lastCouponCode, true); return; }      // already got a coupon: show it again
+  const sec = $('enquiry'); if (!sec) return;
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => { const n = $('leadName'); if (n) n.focus({ preventScroll: true }); }, 600);
+});
 ['leadName', 'leadPhone', 'leadCity'].forEach(id => $(id).addEventListener('input', () => setErr({ leadName: 'name', leadPhone: 'phone', leadCity: 'city' }[id], '')));
 $('leadCityList').innerHTML = CITIES.map(c => '<option value="' + esc(c.name) + '">').join('');
 
