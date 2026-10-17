@@ -692,6 +692,72 @@ a.city-item.current{color:var(--red);cursor:default}
   .mini-car-card-body .mc-price{font-size:.82rem}
 }
 @media (hover:none){.cc-arrow{display:none}}
+/* Buying Guide link added: use the menu button on tablet widths so the longer nav never overflows */
+@media (min-width:769px) and (max-width:1100px){
+  .hamburger{display:flex}
+  .main-nav{position:fixed;top:var(--hdr);left:0;right:0;background:var(--dark);flex-direction:column;align-items:stretch;padding:12px 16px 20px;gap:4px;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:999;transform:translateY(-110%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex!important;visibility:hidden}
+  .main-nav.open{transform:translateY(0);visibility:visible}
+  .main-nav a{padding:13px 16px;border-radius:10px;font-size:.95rem;width:100%;text-align:left}
+}
+
+/* Bright hero (matches the index page) */
+.uc-hero.hero-b{background:radial-gradient(520px 260px at 92% 0%,rgba(224,168,40,.30),transparent 65%),radial-gradient(480px 260px at 0% 100%,rgba(200,70,80,.11),transparent 65%),linear-gradient(120deg,#F4E8DA 0%,#EFDCDD 50%,#F1EACB 100%);padding:26px 5% 30px;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,var(--red),var(--gold),var(--red)) 1;overflow:visible;position:relative}
+.uc-hero.hero-b::before,.uc-hero.hero-b::after{display:none}
+.uc-hero.hero-b .uc-hero-inner{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center;text-align:left;padding-bottom:0}
+.hero-b .uc-hero-pill{background:#fff;color:var(--red-d);border:1px solid rgba(230,57,70,.35);box-shadow:0 4px 12px rgba(230,57,70,.12);margin-bottom:10px}
+.hero-b h1{color:var(--dark);font-size:clamp(1.65rem,3.8vw,2.6rem);line-height:1.1}
+.hero-b h1 span{background:linear-gradient(90deg,var(--red),#FF7A18);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero-b p.uc-hero-sub{color:#4B5563;margin:10px 0 0;max-width:560px;font-size:.95rem}
+.hero-b .uc-hero-search-wrap{margin:18px 0 0;max-width:560px}
+.hero-b .uc-hero-search{box-shadow:0 10px 28px rgba(13,15,26,.14);border:1.5px solid #E5E7EB}
+.hero-b .uc-hero-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:560px;margin:16px 0 0}
+.hero-b .uc-hero-stat,.hero-b .uc-hero-stat:first-child{padding:8px 10px;background:#fff;border:1px solid var(--gray-l);border-left:3px solid var(--gold);border-radius:10px;box-shadow:0 6px 16px rgba(13,15,26,.07)}
+.hero-b .uc-hero-stat strong{color:var(--dark);font-size:1.2rem}
+.hero-b .uc-hero-stat span{color:var(--gray);font-size:.6rem}
+.hb-offer{position:relative;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 18px 40px rgba(230,57,70,.22);border:2px dashed var(--red);transform:rotate(1.2deg)}
+.hb-offer::before,.hb-offer::after{content:"";position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:#F2E5D6;border:2px dashed var(--red);transform:translateY(-50%)}
+.hb-offer::before{left:-13px;clip-path:inset(0 0 0 50%)}
+.hb-offer::after{right:-13px;clip-path:inset(0 50% 0 0)}
+.hb-tag{display:inline-block;background:linear-gradient(90deg,var(--red),#FF7A18);color:#fff;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+.hb-offer h2{font-family:'Rajdhani',sans-serif;font-size:1.4rem;line-height:1.15;margin:8px 0;color:var(--dark)}
+.hb-offer ul{list-style:none;display:grid;gap:6px;font-size:.84rem;color:#374151;margin-bottom:12px}
+.hb-offer li{display:flex;gap:8px}.hb-offer li::before{content:"✔";color:var(--green);font-weight:800}
+.hb-btn{display:block;text-align:center;background:var(--dark);color:var(--gold-l);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;padding:10px;border-radius:10px;transition:var(--trans)}
+.hb-btn:hover{background:var(--red);color:#fff}
+@media (prefers-reduced-motion:no-preference){.hb-offer{animation:hbFloat 4s ease-in-out infinite}@keyframes hbFloat{0%,100%{transform:rotate(1.2deg) translateY(0)}50%{transform:rotate(1.2deg) translateY(-5px)}}}
+@media (max-width:900px){.uc-hero.hero-b .uc-hero-inner{grid-template-columns:1fr}.hb-offer{transform:none;animation:none}}
+@media (max-width:640px){.uc-hero.hero-b{padding:20px 4% 22px}.hb-offer{display:none}.hero-b .uc-hero-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* Calm hero (Bhopal) */
+.uc-hero.hero-b{background:radial-gradient(420px 220px at 92% 0%,rgba(224,168,40,.14),transparent 65%),linear-gradient(135deg,#EFE8DE 0%,#E8DFD4 100%);border-bottom-width:2px}
+.hero-b h1 span{background:none;-webkit-text-fill-color:var(--red);color:var(--red)}
+.hero-b .uc-hero-pill{background:rgba(255,255,255,.7);box-shadow:none}
+.hero-b .uc-hero-search{box-shadow:0 6px 18px rgba(13,15,26,.10)}
+.hero-b .uc-hero-stats{gap:0;margin-top:18px}
+.hero-b .uc-hero-stat,.hero-b .uc-hero-stat:first-child{padding:0 14px;background:none;border:0;border-left:1px solid rgba(13,15,26,.2);border-radius:0;box-shadow:none}
+.hero-b .uc-hero-stat:first-child{padding-left:0;border-left:0}
+.hero-b .uc-hero-stat strong{font-size:1.3rem}
+.hero-b .uc-hero-stat span{font-size:.62rem}
+.hb-offer{box-shadow:0 12px 28px rgba(13,15,26,.14)}
+.hb-offer::before,.hb-offer::after{background:#E8DFD4}
+.hb-tag{background:var(--red)}
+@media (max-width:640px){.hero-b .uc-hero-stats{gap:10px 0}.hero-b .uc-hero-stat:nth-child(3){padding-left:0;border-left:0}}
+
+/* Hero colours matched to the index page */
+.uc-hero.hero-b{background:radial-gradient(520px 260px at 92% 0%,rgba(224,168,40,.30),transparent 65%),radial-gradient(480px 260px at 0% 100%,rgba(200,70,80,.11),transparent 65%),linear-gradient(120deg,#F4E8DA 0%,#EFDCDD 50%,#F1EACB 100%);border-bottom-width:3px}
+.hero-b .uc-hero-pill{background:#fff;color:var(--red-d);border:1px solid rgba(230,57,70,.35);box-shadow:0 4px 12px rgba(230,57,70,.12)}
+.hero-b h1 span{background:linear-gradient(90deg,var(--red),#FF7A18);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+.hb-offer{box-shadow:0 18px 40px rgba(230,57,70,.22)}
+.hb-offer::before,.hb-offer::after{background:#F2E5D6}
+.hb-tag{background:linear-gradient(90deg,var(--red),#FF7A18)}
+/* hero stats: original look (big numbers, dividers) on a dark panel */
+.hero-b .uc-hero-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;max-width:560px;margin:18px 0 0;padding:12px 6px;background:linear-gradient(135deg,#0D0F1A,#1E2440);border-radius:16px;box-shadow:0 12px 28px rgba(13,15,26,.25);border-bottom:3px solid var(--gold)}
+.hero-b .uc-hero-stat,.hero-b .uc-hero-stat:first-child{padding:2px 8px;background:none;border:0;border-left:1px solid rgba(255,255,255,.16);border-radius:0;box-shadow:none;text-align:center}
+.hero-b .uc-hero-stat:first-child{border-left:0}
+.hero-b .uc-hero-stat strong{color:var(--gold-l);font-family:'Rajdhani',sans-serif;font-size:clamp(1.25rem,2.6vw,1.7rem);line-height:1.15}
+.hero-b .uc-hero-stat span{color:rgba(255,255,255,.72);font-size:.62rem;letter-spacing:.05em}
+@media (max-width:640px){.hero-b .uc-hero-stats{grid-template-columns:repeat(2,1fr);gap:10px 0;padding:12px 4px}.hero-b .uc-hero-stat:nth-child(odd){border-left:0}.hero-b .uc-hero-stat:nth-child(3){border-left:0;padding-left:8px}}
 </style>
 </head>
 <body>
@@ -703,6 +769,7 @@ a.city-item.current{color:var(--red);cursor:default}
     <a href="index.html">Home</a>
     <a href="index.html" class="active" aria-current="page">Used Cars</a>
     <a href="dealers-bhopal.html">View All Dealers</a>
+    <a href="car-buying-showroom-guide.html">Buying Guide</a>
     <a href="sell-your-car.html">Sell Your Car</a>
     <a href="for-dealers.html">For Dealers</a>
     <a href="contact.html">Contact</a>
@@ -733,8 +800,9 @@ a.city-item.current{color:var(--red);cursor:default}
 </div>
 
 <!-- HERO -->
-<section class="uc-hero" aria-labelledby="heroHeading">
+<section class="uc-hero hero-b" aria-labelledby="heroHeading">
   <div class="uc-hero-inner">
+    <div class="hb-text">
     <p class="uc-hero-pill">📍 Bhopal · Verified Dealers</p>
     <h1 id="heroHeading">Buy Used Cars in <span>Bhopal</span> from Verified Dealers</h1>
     <p class="uc-hero-sub">Every listing is a real car from a real Bhopal dealer. Search or filter by brand, owners, KM driven, year and more, then contact the dealer directly.</p>
@@ -755,6 +823,17 @@ a.city-item.current{color:var(--red);cursor:default}
       <div class="uc-hero-stat"><strong>Bhopal</strong><span>City Covered</span></div>
       <div class="uc-hero-stat"><strong>24 Hr</strong><span>Avg. Dealer Response</span></div>
     </div>
+    </div>
+    <aside class="hb-offer" aria-label="MotorDivan offer">
+      <span class="hb-tag">🎁 MotorDivan Offer</span>
+      <h2>Discount coupon + Premium Welcome Kit</h2>
+      <ul>
+        <li>Submit the form and get a <strong>coupon code</strong> instantly</li>
+        <li>Show it to the dealer when you buy to get a <strong>discount</strong></li>
+        <li>Buy through MotorDivan and get a <strong>Premium Welcome Kit</strong></li>
+      </ul>
+      <a class="hb-btn" href="#enquiry">Get My Coupon Code →</a>
+    </aside>
   </div>
 </section>
 
@@ -3823,6 +3902,7 @@ a.city-item.current{color:var(--red);cursor:default}
   <a href="index.html" class="footer-brand">MOTOR<span>DIVAN</span></a>
   <nav class="footer-links" aria-label="Footer navigation">
     <a href="index.html">Used Cars</a>
+    <a href="car-buying-showroom-guide.html">Car Buying Tips &amp; Showroom Guide</a>
     <a href="sell-your-car.html">Sell Your Car</a>
     <a href="for-dealers.html">For Dealers</a>
     <a href="about.html">About Us</a>

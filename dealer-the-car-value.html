@@ -674,6 +674,13 @@ a.city-item.current{color:var(--red);cursor:default}
   .mini-car-card-body .mc-price{font-size:.82rem}
 }
 @media (hover:none){.cc-arrow{display:none}}
+/* Buying Guide link added: use the menu button on tablet widths so the longer nav never overflows */
+@media (min-width:769px) and (max-width:1100px){
+  .hamburger{display:flex}
+  .main-nav{position:fixed;top:var(--hdr);left:0;right:0;background:var(--dark);flex-direction:column;align-items:stretch;padding:12px 16px 20px;gap:4px;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:999;transform:translateY(-110%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex!important;visibility:hidden}
+  .main-nav.open{transform:translateY(0);visibility:visible}
+  .main-nav a{padding:13px 16px;border-radius:10px;font-size:.95rem;width:100%;text-align:left}
+}
 </style>
 </head>
 <body>
@@ -685,6 +692,7 @@ a.city-item.current{color:var(--red);cursor:default}
     <a href="index.html">Home</a>
     <a href="index.html" class="active" aria-current="page">Used Cars</a>
     <a href="dealers-bhopal.html">View All Dealers</a>
+    <a href="car-buying-showroom-guide.html">Buying Guide</a>
     <a href="sell-your-car.html">Sell Your Car</a>
     <a href="for-dealers.html">For Dealers</a>
     <a href="contact.html">Contact</a>
@@ -1392,6 +1400,7 @@ a.city-item.current{color:var(--red);cursor:default}
   <a href="index.html" class="footer-brand">MOTOR<span>DIVAN</span></a>
   <nav class="footer-links" aria-label="Footer navigation">
     <a href="index.html">Used Cars</a>
+    <a href="car-buying-showroom-guide.html">Car Buying Tips &amp; Showroom Guide</a>
     <a href="sell-your-car.html">Sell Your Car</a>
     <a href="for-dealers.html">For Dealers</a>
     <a href="about.html">About Us</a>
